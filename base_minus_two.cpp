@@ -58,8 +58,9 @@ struct Results solution(int A[], int M)
 
     // prepare output
     i = j+1;
-    int array[i];
-    array[j] = 1;
+    result.B = (int*)malloc(sizeof(int)*i);
+    result.B[j] = 1;
+    result.N = i;
 
     // until we get the objective, add the other exponents if it converges
     while ((sum != num_objective) && (j > 0))
@@ -73,20 +74,18 @@ struct Results solution(int A[], int M)
         {
             sum += tmp;
             cout << j << 1 << " ";
-            array[j] = 1;
+            result.B[j] = 1;
         }
         else
         {
             cout << j << 0 << " ";
-            array[j] = 0;
+            result.B[j] = 0;
         }
     }
     cout << endl;
 
     cout << sum << endl;
 
-    result.B = array;
-    result.N = i;
     return result;
 };
 
@@ -100,5 +99,7 @@ int main(int argc, char** argv)
     // -9 -> 9
     //int A[] = {1,1,0,1};
     //Results res = solution(A, 4);
+
+    free(res.B);
     return 0;
 }
