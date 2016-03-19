@@ -58,7 +58,7 @@ struct Results solution(int A[], int M)
 
     // prepare output
     i = j+1;
-    result.B = (int*)malloc(sizeof(int)*i);
+    result.B = (int*)calloc(sizeof(int),i);
     result.B[j] = 1;
     result.N = i;
 
@@ -93,12 +93,24 @@ struct Results solution(int A[], int M)
 int main(int argc, char** argv)
 {
     // 9 -> -9
-    int A[] = {1,0,0,1,1};
-    Results res = solution(A, 5);
+    //int A[] = {1,0,0,1,1};
 
     // -9 -> 9
     //int A[] = {1,1,0,1};
-    //Results res = solution(A, 4);
+
+    // 6 -> -6
+    //int A[] = {0,1,0,1,1};
+
+    // 2 -> -2
+    //int A[] = {0,1,1};
+
+    // 23 -> -23
+    //int A[] = {1,1,0,1,0,1,1};
+
+    // 25 -> -25
+    int A[] = {1,0,0,1,0,1,1};
+
+    Results res = solution(A, sizeof(A)/sizeof(int));
 
     free(res.B);
     return 0;
