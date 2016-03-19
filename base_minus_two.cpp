@@ -62,15 +62,28 @@ struct Results solution(int A[], int M)
     result.B[j] = 1;
     result.N = i;
 
+    if ((j % 2) == 0)
+        tmp_pos -= exp_mine(j);
+    else
+        tmp_neg -= exp_mine(j);
+
     // until we get the objective, add the other exponents if it converges
     while ((sum != num_objective) && (j > 0))
     {
         j--;
         tmp = exp_mine(j);
+        if ((j % 2) == 0)
+            tmp_pos -= exp_mine(j);
+        else
+            tmp_neg -= exp_mine(j);
 
-        // it converges if summing it to the current number will get us closer to the result we seek:
-        // current + exponent has a smaller difference to objective than current
-        if (abs(abs(num_objective)-abs(sum+tmp)) <= abs(abs(num_objective)-abs(sum)))
+        #ifdef DEBUG_ITER
+        cout << "tmp: " << tmp << " j: " << j << " tmp_pos: " << tmp_pos << " tmp_neg: " << tmp_neg << endl;
+        #endif
+
+        // if the sum of all the other positive or negative won't get us to the objective number, then this one should be used
+        if (((j % 2 == 0) && (sum + tmp_pos < num_objective))
+            || ((j % 2 == 1) && (sum + tmp_neg > num_objective)))
         {
             sum += tmp;
             cout << j << 1 << " ";
@@ -108,7 +121,10 @@ int main(int argc, char** argv)
     //int A[] = {1,1,0,1,0,1,1};
 
     // 25 -> -25
-    int A[] = {1,0,0,1,0,1,1};
+    //int A[] = {1,0,0,1,0,1,1};
+
+    // -25 -> 25
+    int A[] = {1,1,0,1,1,1};
 
     Results res = solution(A, sizeof(A)/sizeof(int));
 
