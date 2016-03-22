@@ -16,12 +16,15 @@ int solution(int X, int A[], int N)
 
     for (i = N-1; i >= 0; i--)
     {
-        if (A[N+1-i] == X) equal_times++;
-        if (A[i] != X) diff_times++;
-        else equal_times_end++;
+        if (A[N-1-i] == X) equal_times++;
+        // only add to right side when number of different is less than total number
+        if (diff_times < total_times)
+            if (A[i] != X) diff_times++;
+            else equal_times_end++;
 
+        // return number obtained from right side
         if ((equal_times + equal_times_end == total_times) && (equal_times == diff_times))
-            return i;
+            return N-(diff_times+equal_times_end);
     }
 
     return 0;
@@ -32,7 +35,9 @@ int main(int argc, char** argv)
     //int A[] = {5, 5, 1, 7, 2, 3, 5};
     //int A[] = {5, 5, 1, 7, 2, 3, 5, 1};
     //int A[] = {1, 5, 5, 1, 7, 2, 3, 5, 1};
-    int A[] = {1, 5, 1, 2};
+    //int A[] = {1, 5, 1, 2};
+    //int A[] = {1, 5, 1, 2, 5, 5, 5};
+    int A[] = {1, 5, 5, 5, 1, 2};
 
     cout << solution(5, A, sizeof(A)/sizeof(int)) << endl;
 
