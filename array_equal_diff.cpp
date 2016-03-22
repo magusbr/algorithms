@@ -5,7 +5,7 @@ using namespace std;
 
 int solution(int X, int A[], int N)
 {
-    int i = 0;
+    int i = 0, j = 0;
     int equal_times = 0;
     int equal_times_end = 0;
     int diff_times = 0;
@@ -14,13 +14,24 @@ int solution(int X, int A[], int N)
     for (i = 0; i < N; i++)
         if (A[i] == X) total_times++;
 
-    for (i = N-1; i >= 0; i--)
+    i = 0;
+    j = N-1;
+    while (true)
     {
-        if (A[N-1-i] == X) equal_times++;
-        // only add to right side when number of different is less than total number
-        if (diff_times < total_times)
-            if (A[i] != X) diff_times++;
+        // first get the different part
+        if (diff_times == equal_times)
+        {
+            if (A[j] != X) diff_times++;
             else equal_times_end++;
+            j--;
+        }
+
+        // only advance equal part after different part advanced first
+        if (diff_times > equal_times)
+        {
+            if (A[i] == X) equal_times++;
+            i++;
+        }
 
         // return number obtained from right side
         if ((equal_times + equal_times_end == total_times) && (equal_times == diff_times))
@@ -37,7 +48,11 @@ int main(int argc, char** argv)
     //int A[] = {1, 5, 5, 1, 7, 2, 3, 5, 1};
     //int A[] = {1, 5, 1, 2};
     //int A[] = {1, 5, 1, 2, 5, 5, 5};
-    int A[] = {1, 5, 5, 5, 1, 2};
+    //int A[] = {1, 5, 5, 5, 1, 2};
+    // can add 5 at both ends in the example below but answer will always be 1
+    //int A[] = {5, 5, 5, 1, 5, 5};
+    int A[] = {1, 1, 1, 1, 5, 5, 5, 5, 1};
+
 
     cout << solution(5, A, sizeof(A)/sizeof(int)) << endl;
 
